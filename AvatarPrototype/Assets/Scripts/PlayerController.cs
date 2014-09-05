@@ -235,7 +235,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown(punch))
         {
             Debug.Log("Pawnch");
-            punchPrefab.GetComponent<Attack>().Activate();
+            //Instantiate(BasicLeftAttack, transform.position, Quaternion.identity)
+            .Activate();
         }
 
     }

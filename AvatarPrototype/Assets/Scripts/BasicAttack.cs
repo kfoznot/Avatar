@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(HitBox))]
 public class BasicAttack : Attack
 {
     HashSet<GameObject> players = new HashSet<GameObject>();
@@ -9,6 +10,8 @@ public class BasicAttack : Attack
     public float time = 0.5f;
     public int damage = 10;
     public float magnitude = 10.0f;
+    public float range = 3.0f;
+    public Vector2 direction = new Vector2(1.0f, 0.0f);
 
     // Use this for initialization
     protected override void Start()
@@ -23,6 +26,20 @@ public class BasicAttack : Attack
         {
             gameObject.GetComponent<HitBox>().Deactivate();
         }
+
+        direction.Normalize();
+
+        if (timer < time / 2.0f)
+        {
+            direction *= range * timer * 2.0f / time;
+        }
+        else
+        {
+            direction *= range * ((time - (2.0f * timer - time)) / time);
+        }
+
+        //Debug.Log(direction.ToString());
+        transform.position = owner.transform.position + new Vector3(direction.x, direction.y, 0.0f);
     }
 
     public override void Activate()
@@ -30,6 +47,14 @@ public class BasicAttack : Attack
         gameObject.GetComponent<HitBox>().Activate(owner, this);
         players.Add(owner);
         timer = time;
+        if (owner.GetComponent<PlayerController>().dirx > 0.0f)
+        {
+            direction = new Vector2(1.0f, 0.0f);
+        }
+        else
+        {
+            direction = new Vector2(-1.0f, 0.0f);
+        }
     }
 
     public override void Deactivate()
