@@ -235,8 +235,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown(punch))
         {
             Debug.Log("Pawnch");
-            //Instantiate(BasicLeftAttack, transform.position, Quaternion.identity)
-            .Activate();
         }
 
     }

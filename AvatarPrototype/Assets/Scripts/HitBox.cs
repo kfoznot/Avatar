@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class HitBox : MonoBehaviour
 {
 
 	public GameObject owner;
-	public Attack attack;
-	public bool activated;
+	private Attack attack;
+	private bool activated;
+	private HashSet<GameObject> players = new HashSet<GameObject>();
 
 	// Use this for initialization
 	void Start()
 	{
-	
+		players.Add(owner);
 	}
 	
 	// Update is called once per frame
@@ -19,11 +21,10 @@ public class HitBox : MonoBehaviour
 	{
 	}
 
-    public void Activate(GameObject owner, Attack attack)
+    public void Activate(Attack attack)
     {
-        this.owner = owner;
         this.attack = attack;
-        activated = true;
+		activated = true;
     }
 
     public void Deactivate()
@@ -33,10 +34,11 @@ public class HitBox : MonoBehaviour
 	
 	void OnTriggerEnter2D(Collider2D c)
 	{
-		if (!activated || c == null || c.gameObject == owner)
+		if (!activated || c == null || players.Contains(c.gameObject))
 		{
 			return;
 		}
+		players.Add(c.gameObject);
 
         PlayerController p = c.gameObject.GetComponent<PlayerController>();
         if (p != null)
