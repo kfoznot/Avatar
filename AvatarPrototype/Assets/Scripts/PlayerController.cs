@@ -3,7 +3,6 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    public Transform groundedBody;
     public Transform leftSurface;
     public Transform rightSurface;
     public Transform playerSpawn;
@@ -17,7 +16,21 @@ public class PlayerController : MonoBehaviour
     public bool wallCling = false;
     public bool stunned = false;
 
-    public float dirx;
+    public float dirx
+    {
+        get
+        {
+            return dx;
+        }
+
+        set
+        {
+            dx = value;
+            transform.localScale = new Vector2(System.Math.Sign(dx) * 5.0f, 7.0f);
+        }
+    }
+
+    public float dx;
 
     // Player Handling
     public float speed = 20.0f;
@@ -88,8 +101,6 @@ public class PlayerController : MonoBehaviour
         Vector2 accelerationVector = Vector2.zero;
 
         // identify what surfaces I am touching
-        //grounded = groundedBody.GetComponent<TouchingScript>().touching;
-
         BoxCollider2D collider = GetComponent<BoxCollider2D>();
         Vector2 scale = transform.localScale;
         Vector2 s = collider.size;

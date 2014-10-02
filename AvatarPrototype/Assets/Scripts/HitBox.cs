@@ -8,12 +8,13 @@ public class HitBox : MonoBehaviour
 	public GameObject owner;
 	private Attack attack;
 	private bool activated;
-	private HashSet<GameObject> players = new HashSet<GameObject>();
+    private HashSet<GameObject> players;
+    private BoxCollider2D collider;
 
 	// Use this for initialization
 	void Start()
 	{
-		players.Add(owner);
+        collider = GetComponent<BoxCollider2D>();
 	}
 	
 	// Update is called once per frame
@@ -23,18 +24,23 @@ public class HitBox : MonoBehaviour
 
     public void Activate(Attack attack)
     {
+        players = new HashSet<GameObject>();
+        players.Add(owner);
         this.attack = attack;
 		activated = true;
+        collider.enabled = true;
     }
 
     public void Deactivate()
     {
+        collider.enabled = true;
         activated = false;
+        players = null;
     }
 	
 	void OnTriggerEnter2D(Collider2D c)
 	{
-		if (!activated || c == null || players.Contains(c.gameObject))
+		if (!activated || c == null || players == null || players.Contains(c.gameObject))
 		{
 			return;
 		}

@@ -3,8 +3,6 @@ using System.Collections;
 
 public abstract class Attack : MonoBehaviour
 {
-	public GameObject owner;
-
 	// Use this for initialization
     protected virtual void Start()
 	{
@@ -17,9 +15,9 @@ public abstract class Attack : MonoBehaviour
 
 	public abstract void Activate();
 
-	public abstract void Deactivate();
+    public virtual void Deactivate() { }
 
-	public abstract void OnTerrain(GameObject terrain);
+    public virtual void OnTerrain(GameObject terrain) { }
 
-    public abstract void OnPlayer(GameObject player);
+    public virtual void OnPlayer(GameObject player) { }
 }
